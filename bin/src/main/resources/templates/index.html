@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="layout :: head">
+	<style>
+		/* General page background */
+		body {
+			background-color: #f8f9fa;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+
+		/* Card styling */
+		.card {
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+			border: none;
+			border-radius: 12px;
+		}
+
+		.card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+		}
+
+		/* Card footer price style */
+		.card-footer span {
+			color: #ffc107; /* gold price text */
+			font-size: 1.1rem;
+		}
+
+		/* Pagination styling */
+		.pagination .page-link {
+			color: #0d6efd;
+			border-radius: 8px;
+		}
+
+		.pagination .page-link:hover {
+			background-color: #0d6efd;
+			color: white;
+		}
+
+		/* No books text */
+		.no-books {
+			color: #6c757d;
+			font-style: italic;
+		}
+
+		/* Search bar */
+		.form-control {
+			border-radius: 8px;
+		}
+
+		.btn {
+			border-radius: 8px;
+		}
+	</style>
+</head>
+
+<body>
+	<nav th:replace="layout :: header"></nav>
+
+	<div class="container my-4" id="main-content">
+
+		<!-- Search Bar -->
+		<div class="row mb-4">
+			<div class="col-md-6">
+				<form class="d-flex" th:action="@{/search}" method="get">
+					<input class="form-control me-2" type="search" name="term" placeholder="Search by name..." />
+					<button class="btn btn-primary" type="submit">
+						<i class="fa fa-search"></i> Search
+					</button>
+				</form>
+			</div>
+		</div>
+
+		<!-- Success Alert -->
+		<div class="row">
+			<div th:if="${successMessage}" class="col-12">
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					<span th:text="${successMessage}"></span>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</div>
+		</div>
+
+		<!-- No Books Message -->
+		<th:block th:if="${#lists.isEmpty(bookPage.content)}">
+			<div class="text-center mt-5">
+				<h5 class="no-books">📚 There are no books in stock</h5>
+			</div>
+		</th:block>
+
+		<!-- Book Cards -->
+		<th:block th:unless="${#lists.isEmpty(bookPage.content)}">
+			<div class="row g-4">
+				<div class="col-md-4" th:each="book : ${bookPage.content}">
+					<div class="card bg-dark text-white h-100 shadow-sm">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${book.name}"></h5>
+							<p class="card-text mb-2" th:text="${book.authors}"></p>
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item bg-dark text-white" th:text="${book.publisher}"></li>
+							<li class="list-group-item bg-dark text-white" th:text="${book.publishedOn}"></li>
+							<li class="list-group-item bg-dark text-white" th:text="${book.isbn}"></li>
+						</ul>
+						<div class="card-footer d-flex justify-content-between align-items-center">
+							<span class="fw-bold" th:text="${book.price} + ' $'"></span>
+							<form th:action="@{/cart/add/{id}(id=${book.id})}" method="get">
+								<button class="btn btn-success btn-sm" type="submit">
+									<i class="fa fa-plus-circle"></i> Add to cart
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Pagination -->
+			<div class="row mt-4">
+				<div class="col">
+					<nav th:if="${bookPage.totalPages > 0}">
+						<ul class="pagination justify-content-center">
+							<li class="page-item" th:each="pageNumber : ${pageNumbers}">
+								<a class="page-link"
+								   th:href="@{/(size=${bookPage.size}, page=${pageNumber})}"
+								   th:text="${pageNumber}"></a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</th:block>
+
+	</div>
+
+</body>
+</html>
