@@ -6,60 +6,82 @@
 	<nav th:replace="layout :: header"></nav>
 
 	<div class="container" id="main-content">
-		<div class="row h-100">
-			<div class="col-4 no-padding">
+		<div class="row h-100 mb-3">
+			<!-- Checkout button -->
+			<div class="col-6 col-md-4 d-flex justify-content-start">
 				<form class="form-inline" action="/checkout" method="get">
-					<button class="btn btn-primary" type="submit">
-						<i class="fa fa-cart-arrow-down fa-bigger"></i> CHECKOUT
+					<button class="btn btn-success shadow-sm" type="submit">
+						<i class="fa fa-cart-arrow-down"></i> Checkout
 					</button>
 				</form>
 			</div>
-			<div class="col-4 no-padding"
-				style="display: flex; justify-content: center;"></div>
-			<div class="col-4 no-padding">
-				<form class="form-inline justify-content-end" action="#"
-					th:action="@{/cart/remove/all}" method="get">
-					<button class="btn btn-danger" type="submit">
-						<i class="fa fa-trash-o fa-bigger"></i> DELETE ALL
+
+			<!-- Spacer / Center area -->
+			<div
+				class="col-12 col-md-4 d-flex justify-content-center my-2 my-md-0">
+				<h5 class="text-primary fw-bold">🛒 Your Cart</h5>
+			</div>
+
+			<!-- Delete all button -->
+			<div class="col-6 col-md-4 d-flex justify-content-end">
+				<form class="form-inline" th:action="@{/cart/remove/all}"
+					method="get">
+					<button class="btn btn-danger shadow-sm" type="submit">
+						<i class="fa fa-trash"></i> Delete All
 					</button>
 				</form>
 			</div>
 		</div>
-		<div class="row mt-4">
-			<div th:if="${successMessage}"
-				class="col-12 alert alert-success alert-dismissible fade show"
-				role="alert">
-				<span th:text="${successMessage}"></span>
-				<button type="button" class="close" data-dismiss="alert"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+
+		<!-- Success / Alert messages -->
+		<div th:if="${successMessage}" id="successAlert"
+			class="col-12 alert alert-success alert-dismissible fade show text-center shadow-sm fw-bold"
+			role="alert" aria-live="polite" aria-atomic="true">
+			<i class="fa fa-check-circle me-2"></i> <span
+				th:text="${successMessage}"></span>
+
+			<!-- Close button (works with or without Bootstrap JS) -->
+			<button type="button" class="btn-close ms-2" aria-label="Close"></button>
+		</div>
+		<th:block th:if="${#lists.isEmpty(cart)}">
+			<div class="col-12 text-center mt-5">
+				<div class="card border-0 shadow-sm p-4 bg-light">
+					<div class="card-body">
+						<i class="fa fa-shopping-basket fa-3x text-secondary mb-3"></i>
+						<h5 class="text-muted fw-bold">Your basket is currently empty</h5>
+						<p class="text-secondary small mb-3">Looks like you haven’t
+							added anything yet.</p>
+						<a href="/" class="btn btn-primary btn-sm"> <i
+							class="fa fa-book me-1"></i> Browse Books
+						</a>
+					</div>
+				</div>
 			</div>
+		</th:block>
 
-			<th:block th:if="${#lists.isEmpty(cart)}">
-				<h5>Your basket is currently empty.</h5>
-			</th:block>
+	</div>
 
-			<th:block th:unless="${#lists.isEmpty(cart)}">
+
+	<th:block th:unless="${#lists.isEmpty(cart)}">
 				<div class="card-deck"
 					style="display: flex; justify-content: space-around; margin-top: 20px;">
 					<div class="col-sm-6"
 						style="max-width: 32rem; display: inline-table; width: 32rem;"
 						th:each="book, iStat : ${cart}">
-						<div class="card text-white bg-dark"
+						<div class="card text-dark bg-white"
 							style="width: 32rem; margin-bottom: 50px">
 							<!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
 							<div class="card-body">
 								<h5 class="card-title" th:text="${book.name}"></h5>
 								<p class="card-text" th:text="${book.authors}"></p>
 							</div>
-							<div class="card-footer" style="display: inline">
+							<div class="card-footer" style="display: inline"><i class="fa fa-cart-arrow-down"></i> 
 								<i class="font-weight-bold align-middle"
 									th:text="${book.price} + ' ' + '$'"></i>
 								<form class="form-inline" style="float: right" action="#"
 									th:action="@{/cart/remove/{id}(id=${book.id})}" method="get">
 									<button class="btn btn-danger" type="submit">
-										<i class="fa fa-minus-circle"></i> Remove from cart
+										<i class="fa fa-minus-circle"></i> Remove 
 									</button>
 								</form>
 							</div>
@@ -77,9 +99,34 @@
 					</nav>
 				</div>
 			</th:block>
-		</div>
-	</div>
 
 	<footer th:replace="layout :: footer"></footer>
+
+	<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const alertEl = document.getElementById("successAlert");
+    if (!alertEl) return;
+
+    // Click-to-close (manual) – works without Bootstrap JS
+    const closeBtn = alertEl.querySelector(".btn-close");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", hideAlert);
+    }
+
+    // Auto-hide after 4s
+    const AUTO_HIDE_MS = 4000;
+    setTimeout(hideAlert, AUTO_HIDE_MS);
+
+    function hideAlert() {
+      if (!alertEl || alertEl.dataset.closing === "1") return;
+      alertEl.dataset.closing = "1";
+      // Smooth fade-out even without Bootstrap's fade CSS
+      alertEl.style.transition = "opacity 300ms ease";
+      alertEl.style.opacity = "0";
+      alertEl.classList.remove("show");
+      setTimeout(() => alertEl.remove(), 320);
+    }
+  });
+</script>
 </body>
 </html>

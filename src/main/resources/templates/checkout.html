@@ -5,145 +5,141 @@
 <body>
 	<nav th:replace="layout :: header"></nav>
 
-	<div class="container" id="main-content">
-
-		<div class="row">
-			<div class="col-3 no-padding mb-5">
-				<form class="form-inline" action="/cart" method="get">
-					<button class="btn btn-primary" type="submit">
-						<i class="fa fa-cart-shopping fa-bigger"></i> CART
+	<div class="container py-5" id="main-content">
+		<div class="row mb-4">
+			<div class="col-md-4">
+				<form action="/cart" method="get">
+					<button class="btn btn-primary w-100" type="submit">
+						<i class="fa fa-cart-shopping"></i> CART
 					</button>
 				</form>
 			</div>
-			<div class="col-3 no-padding"></div>
-			<div class="col-3 no-padding"></div>
 		</div>
 
-		<div class="row">
-			<div class="col">
-				<form action="#" th:action="@{/checkout/placeOrder}"
-					th:object="${customer}" method="post">
-					<h4 class="text-center">Billing Details</h4>
+		<div class="row g-4">
+			<!-- Billing Details -->
+			<div class="col-md-6">
+				<div class="card shadow-sm">
+					<div class="card-body">
+						<h4 class="text-center mb-4"><i class="fa fa-file-invoice"></i> Billing Details</h4>
 
-					<input type="hidden" th:field="*{id}" />
+						<form th:action="@{/checkout/placeOrder}" th:object="${customer}" method="post">
+							<input type="hidden" th:field="*{id}" />
 
-					<div class="row">
-						<div class="form-group col">
-							<input class="form-control" type="text" placeholder="Name"
-								th:field="*{name}" th:errorclass="field-error" /> <em
-								th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></em>
-						</div>
+							<div class="row">
+								<div class="form-group col-md-6">
+									<i class="fa fa-user"></i><input class="form-control" type="text" placeholder="Name"
+										th:field="*{name}" th:errorclass="is-invalid" />
+									<em th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></em>
+								</div>
+								<div class="form-group col-md-6">
+									<i class="fa fa-user-tag"></i><input class="form-control" type="text" placeholder="Surname"
+										th:field="*{surname}" th:errorclass="is-invalid" />
+									<em th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></em>
+								</div>
+							</div>
 
-						<div class="form-group col">
-							<input class="form-control" type="text" placeholder="Surname"
-								step="any" th:field="*{surname}" th:errorclass="field-error" />
-							<em th:if="${#fields.hasErrors('surname')}"
-								th:errors="*{surname}"></em>
-						</div>
+							<div class="form-group mt-3">
+								<i class="fa fa-globe"></i><input class="form-control" type="text" placeholder="Country/Region"
+									th:field="*{countryRegion}" th:errorclass="is-invalid" />
+								<em th:if="${#fields.hasErrors('countryRegion')}" th:errors="*{countryRegion}"></em>
+							</div>
+
+							<div class="form-group mt-3">
+									<i class="fa fa-home"></i><input class="form-control" type="text" placeholder="Street and house number"
+									th:field="*{streetAndHouseNumber}" th:errorclass="is-invalid" />
+								<em th:if="${#fields.hasErrors('streetAndHouseNumber')}" th:errors="*{streetAndHouseNumber}"></em>
+							</div>
+
+							<div class="row mt-3">
+								<div class="form-group col-md-6">
+									<i class="fa fa-city"></i><input class="form-control" type="text" placeholder="City"
+										th:field="*{city}" th:errorclass="is-invalid" />
+									<em th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></em>
+								</div>
+								<div class="form-group col-md-6">
+									<i class="fa fa-mail-bulk"></i><input class="form-control" type="text" placeholder="Postal code"
+										th:field="*{postalCode}" th:errorclass="is-invalid" />
+									<em th:if="${#fields.hasErrors('postalCode')}" th:errors="*{postalCode}"></em>
+								</div>
+							</div>
+
+							<div class="form-group mt-3">
+								<i class="fa fa-phone"></i><input class="form-control" type="text" placeholder="Phone number"
+									th:field="*{phoneNumber}" th:errorclass="is-invalid" />
+								<em th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></em>
+							</div>
+
+							<div class="form-group mt-3">
+								<i class="fa fa-envelope"></i><input class="form-control" type="email" placeholder="Email"
+									th:field="*{email}" th:errorclass="is-invalid" />
+								<em th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></em>
+							</div>
+
+							<div class="form-group mt-4">
+								<button type="submit" class="btn btn-primary w-100"> <i class="fa fa-receipt"></i>
+									 Place order
+								</button>
+							</div>
+						</form>
 					</div>
-
-					<div class="form-group">
-						<input class="form-control" type="text"
-							placeholder="Country/Region" th:field="*{countryRegion}"
-							th:errorclass="field-error" /> <em
-							th:if="${#fields.hasErrors('countryRegion')}"
-							th:errors="*{countryRegion}"></em>
-					</div>
-
-					<div class="form-group">
-						<input class="form-control" type="text"
-							placeholder="Street and house number"
-							th:field="*{streetAndHouseNumber}" th:errorclass="field-error" />
-						<em th:if="${#fields.hasErrors('streetAndHouseNumber')}"
-							th:errors="*{streetAndHouseNumber}"></em>
-					</div>
-
-					<div class="form-group">
-						<input class="form-control" type="text" placeholder="City"
-							th:field="*{city}" th:errorclass="field-error" /> <em
-							th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></em>
-					</div>
-
-					<div class="form-group">
-						<input class="form-control" type="text" placeholder="Postal code"
-							th:field="*{postalCode}" th:errorclass="field-error" /> <em
-							th:if="${#fields.hasErrors('postalCode')}"
-							th:errors="*{postalCode}"></em>
-					</div>
-
-					<div class="form-group">
-						<input class="form-control" type="text" placeholder="Phone number"
-							th:field="*{phoneNumber}" th:errorclass="field-error" /> <em
-							th:if="${#fields.hasErrors('phoneNumber')}"
-							th:errors="*{phoneNumber}"></em>
-					</div>
-					<div class="form-group">
-						<input class="form-control" type="text" placeholder="Email"
-							th:field="*{email}" th:errorclass="field-error" /> <em
-							th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></em>
-					</div>
-
-					<div class="form-group">
-						<button type="submit" class="btn btn-block btn-primary">
-							<i class="fa fa-regular fa-cart-circle-check"></i> Place order
-						</button>
-					</div>
-				</form>
+				</div>
 			</div>
-			<div class="col">
-				<h4 class="text-center">Your order</h4>
-				<div class="row">
-					<div class="col">
-						<h5>Products</h5>
+
+			<!-- Order Summary -->
+			<div class="col-md-6">
+				<div class="card shadow-sm">
+					<div class="card-body">
+						<h4 class="text-center mb-4"><i class="fa fa-box"></i> Your Order</h4>
+
+						<div class="row border-bottom pb-2 mb-2">
+							<div class="col">
+								<i class="fa fa-book"></i><strong> Products</strong>
+							</div>
+							<div class="col text-end">
+								<i class="fa fa-dollar-sign"></i><strong> Price</strong>
+							</div>
+						</div>
+
 						<tr th:each="book: ${productsInCart}">
-							<div>
-								<td th:text="${book.name}" />
+							<div class="row mb-2">
+								<div class="col" th:text="${book.name}"></div>
+								<div class="col text-end" th:text="|${book.price} $|"></div>
 							</div>
 						</tr>
-					</div>
-					<div class="col">
-						<h5>In total</h5>
-						<tr th:each="book: ${productsInCart}">
-							<div>
-								<td th:text="${book.price}" />
+
+						<div class="row border-top pt-3 mt-3">
+							<div class="col"><i class="fa fa-truck"></i> Delivery</div>
+							<div class="col text-end" th:text="|${shippingCosts} $|"></div>
+						</div>
+
+						<div class="row border-top pt-3 mt-3">
+							<div class="col"><i class="fa fa-wallet"></i><strong> Total</strong></div>
+							<div class="col text-end"><strong th:text="|${totalPrice} $|"></strong></div>
+						</div>
+
+						<div class="row mt-4">
+							<div class="col">
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="payment"
+										id="radioOption1" value="card">
+									<label class="form-check-label" for="radioOption1"><i class="fa fa-credit-card"></i> Payment by card</label>
+								</div>
 							</div>
-						</tr>
-					</div>
-				</div>
-				<div class="row" style="margin-top: 25px;">
-					<div class="col">
-						<h5>Delivery</h5>
-					</div>
-					<div class="col">
-						<h5 th:text="|${shippingCosts} $|"></h5>
-					</div>
-				</div>
-				<div class="row" style="margin-top: 25px;">
-					<div class="col">
-						<h5>In total</h5>
-					</div>
-					<div class="col">
-						<h5 th:text="|${totalPrice} $|"></h5>
-					</div>
-				</div>
-				<div class="row" style="margin-top: 25px;">
-					<div class="col">
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="payment"
-								id="radioOption1" value="card"> <label
-								class="form-check-label" for="card"> Payment by card </label>
+							<div class="col">
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="payment"
+										id="radioOption2" value="cash" checked>
+									<label class="form-check-label" for="radioOption2"><i class="fa fa-money-bill-wave"></i> Cash on delivery</label>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="col">
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="payment"
-								id="radioOption2" value="cash" checked> <label
-								class="form-check-label" for="cash"> Cash on delivery </label>
-						</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div th:replace="layout :: footer"></div>
 </body>
 </html>

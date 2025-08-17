@@ -1,6 +1,6 @@
 package com.bookstore.controller;
 
-import java.util.List;
+import java.util.List; 
 
 import javax.validation.Valid;
 
@@ -48,14 +48,34 @@ public class CheckoutController {
 
 	@PostMapping("/placeOrder")
 	public String placeOrder(@Valid Customer customer, BindingResult result, RedirectAttributes redirect) {
-		if (result.hasErrors()) {
-			return "/checkout";
-		}
-		billingService.createOrder(customer, shoppingCartService.getCart());
-		//emailService.sendEmail(customer.getEmail(), "bookstore - Order Confirmation", "Your order has been confirmed.");
-		shoppingCartService.emptyCart();
-		redirect.addFlashAttribute("successMessage", "The order is confirmed, check your email.");
-		return "redirect:/cart";
+	    if (result.hasErrors()) {
+	        return "/checkout";
+	    }
+
+	    // 1. Create the order
+	    billingService.createOrder(customer, shoppingCartService.getCart());
+
+	    // 2. Send a simple email
+	    try {
+	        String subject = "Bookstore - Order Confirmation";
+	        String message = "Your order has been confirmed.";
+	        emailService.sendEmail(customer.getEmail(), subject, message);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        redirect.addFlashAttribute("errorMessage", "Order placed but email could not be sent.");
+	        shoppingCartService.emptyCart();
+	        return "redirect:/cart";
+	    }
+
+	    // 3. Empty the shopping cart
+	    shoppingCartService.emptyCart();
+
+	    // 4. Add flash message
+	    redirect.addFlashAttribute("successMessage", "The order is confirmed, check your email.");
+
+	    return "redirect:/cart";
 	}
+
+	
 
 }
