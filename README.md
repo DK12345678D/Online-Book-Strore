@@ -4,7 +4,7 @@ A **user-friendly online bookstore** where users can register or log in, browse 
 Administrators can manage the store's inventory, including adding, removing, and updating book details, as well as maintaining sales history.
 
 ---
-
+ 
 ## 📖 About
 This project is designed to:
 - 📚 Sell books online.  
