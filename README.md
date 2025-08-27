@@ -18,7 +18,7 @@ This project is designed to:
 ## 🛠 Features
 
 ### **👨‍💼 Admin Features**
-- ➕ Add new books.  
+- ➕ Add new books.   
 - 📋 View available books.  
 - ❌ Remove books from the store.  
 - 📈 Increase or 📉 decrease book quantities.  
