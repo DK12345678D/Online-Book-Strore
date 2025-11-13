@@ -13,7 +13,7 @@ This project is designed to:
 - 😀 Provide a **user-friendly** interface for customers and administrators.  
 - ⚙️ Demonstrate the implementation of **Java Http Servlets** with JDBC.  
 
----
+---    
 
 ## 🛠 Features
 
