@@ -1,5 +1,5 @@
 # 📚 Online Bookstore              
-        
+           
 A **user-friendly online bookstore** where users can register or log in, browse available books, choose desired quantities, and purchase them securely. The platform also provides a payment receipt after successful transactions.  
 Administrators can manage the store's inventory, including adding, removing, and updating book details, as well as maintaining sales history.
 
