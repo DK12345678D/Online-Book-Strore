@@ -40,7 +40,7 @@ This project is designed to:
 - 🗄️ **Database:** MySQL, H2 (for testing)  
 - 🔌 **Connection Pooling:** C3P0  
 - ✅ **Validation:** Hibernate Validator, JSR-303  
-- 📧 **Email:** Spring Boot Mail Starter  
+- 📧 **Email:** Spring Boot Mail Starter     
 - ⚒️ **Build Tool:** Maven  
 
 ---
