@@ -5,7 +5,7 @@ Administrators can manage the store's inventory, including adding, removing, and
 
 ---                
            
-## 📖 About    
+## 📖 About       
 This project is designed to:      
 - 📚 Sell books online.  
 - 🧾 Maintain a history of book sales.  
